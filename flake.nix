@@ -51,7 +51,7 @@
     , nixpkgs-unstable
     , nixpkgs-unstable-for-vimplugins
     , hurricanehrndz-nixcfg
-    }:
+    } @ args:
 
     let
       # Nixpkgs
@@ -78,6 +78,7 @@
           "/bin"
           "/share/man"
           "/share/doc"
+          "/share/sources"
           "/share/fish/vendor_completions.d"
           "/share/fish/vendor_conf.d"
           "/share/fish/vendor_functions.d"
@@ -187,7 +188,13 @@
             hash = "sha256:0fpzmp5cnj3s1x5xnp2ffxkwlgyrmfmkgz0k23b2b0rpl94d1x17";
           };
         });
-      } // import ./node-packages/node-composition.nix { pkgs = stable-current; };
 
+        # Reference input sources in order to avoid garbage collection
+        sources = stable-current.linkFarm "sources-${self.lastModifiedDate or "1"}"
+          (stable-current.lib.attrsets.mapAttrsToList
+            (name: value: { name = "share/sources/${name}"; path = value.outPath; })
+            args);
+      } // import ./node-packages/node-composition.nix { pkgs = stable-current; };
     };
 }
+
