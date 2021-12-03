@@ -88,8 +88,8 @@
       # My packages separately
       packages.x86_64-linux = {
         # Packages from current stable
+        nix = stable-current.nix_2_4;
         inherit (stable-current)
-          nix_2_4
           cacert
           bash
           fish
