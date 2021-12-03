@@ -158,7 +158,7 @@
             ])
         );
 
-        # We need version 2.10 for ansible 2.9
+        # We need version 0.2 for ansible 2.9
         mitogen = stable-current.python39Packages.mitogen.overrideAttrs (oldAttrs: rec {
           name = "python3.9-mitogen-${version}";
           version = "0.2.10";
