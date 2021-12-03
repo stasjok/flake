@@ -89,6 +89,7 @@
       packages.x86_64-linux = {
         # Packages from current stable
         inherit (stable-current)
+          bash
           fish
           tmux
           git
