@@ -58,7 +58,7 @@
       stable-21-11 = nixos-21-11.legacyPackages.x86_64-linux;
       unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
       vimplugins = nixpkgs-unstable-for-vimplugins.legacyPackages.x86_64-linux;
-      stable-current = stable-21-05;
+      stable-current = stable-21-11;
     in
     {
       # Provide all upstream packages
@@ -84,19 +84,24 @@
       packages.x86_64-linux = {
         # Packages from current stable
         inherit (stable-current)
+          fish
+          tmux
           git
           gnupg
-          tmux
           exa
           bat
           fd
           ripgrep
           fzf
           delta
-          ansible_2_9
           python3
+          black
+          ansible_2_9
+          ansible-lint
+          yamllint
           shellcheck
           shfmt
+          stylua
           ;
         inherit (stable-current.nodePackages)
           bash-language-server
@@ -104,13 +109,8 @@
           ;
         # Packages from unstable
         inherit (unstable)
-          fish
           neovim-unwrapped
           sumneko-lua-language-server
-          stylua
-          black
-          ansible-lint
-          yamllint
           ;
         inherit (unstable.nodePackages)
           pyright
