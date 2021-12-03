@@ -125,7 +125,7 @@
           # I need to change package name, because packer does :packadd packer.nvim
           pname = "packer.nvim";
           version = "2021-09-04";
-          src = vimplugins.fetchFromGitHub {
+          src = fetchFromGitHub {
             owner = "wbthomason";
             repo = "packer.nvim";
             rev = "daec6c759f95cd8528e5dd7c214b18b4cec2658c";
@@ -172,7 +172,7 @@
 
         rnix-lsp = unstable.rnix-lsp.overrideAttrs (oldAttrs: rec {
           version = "2021-11-15+9462b0d";
-          src = stable-current.fetchFromGitHub {
+          src = fetchFromGitHub {
             owner = "nix-community";
             repo = "rnix-lsp";
             rev = "9462b0d20325a06f7e43b5a0469ec2c92e60f5fe";
