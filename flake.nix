@@ -54,11 +54,16 @@
     }:
 
     let
+      # Nixpkgs
       stable-21-05 = nixos-21-05.legacyPackages.x86_64-linux;
       stable-21-11 = nixos-21-11.legacyPackages.x86_64-linux;
       unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
       vimplugins = nixpkgs-unstable-for-vimplugins.legacyPackages.x86_64-linux;
       stable-current = stable-21-11;
+      # Shortcuts
+      inherit (stable-current)
+        fetchFromGitHub
+        ;
     in
     {
       # Provide all upstream packages
@@ -153,15 +158,15 @@
             ])
         );
 
-        # We need 2.10 version for ansible 2.9
-        mitogen = unstable.python38Packages.mitogen.overrideAttrs (oldAttrs: rec {
-          name = "python3.8-mitogen-${version}";
-          version = "0.2.10rc1";
-          src = stable-current.fetchFromGitHub {
+        # We need version 2.10 for ansible 2.9
+        mitogen = stable-current.python39Packages.mitogen.overrideAttrs (oldAttrs: rec {
+          name = "python3.9-mitogen-${version}";
+          version = "0.2.10";
+          src = fetchFromGitHub {
             owner = "mitogen-hq";
             repo = "mitogen";
             rev = "v${version}";
-            sha256 = "0i600gy8qigkd693pd13vmm9knsvggpjpidyhr650xj75i6bbn7m";
+            sha256 = "sha256-SFwMgK1IKLwJS8k8w/N0A/+zMmBj9EN6m/58W/e7F4Q=";
           };
         });
 
