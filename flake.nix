@@ -71,7 +71,7 @@
 
       # Provide a package for nix profile with all my packages combined
       defaultPackage.x86_64-linux = stable-current.buildEnv {
-        name = "nix-profile-${toString self.lastModifiedDate or 1}";
+        name = "nix-profile-${self.lastModifiedDate or "1"}";
         paths = builtins.attrValues self.packages.x86_64-linux;
         extraOutputsToInstall = [ "man" "doc" ];
         pathsToLink = [
