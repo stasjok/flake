@@ -62,6 +62,7 @@
       stable-current = stable-21-11;
       # Shortcuts
       inherit (stable-current)
+        lib
         fetchFromGitHub
         ;
     in
@@ -78,7 +79,7 @@
           "/bin"
           "/share/man"
           "/share/doc"
-          "/share/sources"
+          "/share/nixpkgs-sources"
           "/share/fish/vendor_completions.d"
           "/share/fish/vendor_conf.d"
           "/share/fish/vendor_functions.d"
@@ -190,10 +191,14 @@
         });
 
         # Reference input sources in order to avoid garbage collection
-        sources = stable-current.linkFarm "sources-${self.lastModifiedDate or "1"}"
-          (stable-current.lib.attrsets.mapAttrsToList
-            (name: value: { name = "share/sources/${name}"; path = value.outPath; })
-            args);
+        sources =
+          let
+            inputs = removeAttrs args [ "self" ];
+            nixpkgs-sources = lib.attrsets.mapAttrsToList
+              (name: value: { name = "share/nixpkgs-sources/${name}"; path = value.outPath; })
+              inputs;
+          in
+          stable-current.linkFarm "nixpkgs-sources" nixpkgs-sources;
       } // import ./node-packages/node-composition.nix { pkgs = stable-current; };
     };
 }
