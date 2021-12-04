@@ -96,7 +96,7 @@
           (stable-current.man-db.override { db = stable-current.gdbm; })
         ];
         postBuild = ''
-          mandb --create --no-straycats "$out/share/man"
+          mandb "$out/share/man"
         '';
       };
 
