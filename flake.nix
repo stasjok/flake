@@ -9,6 +9,7 @@
       repo = "nixpkgs";
       # Released on 2021-11-29 21:50:19 via https://hydra.nixos.org/eval/1726412
       rev = "2553aee74fed8c2205a4aeb3ffd206ca14ede60f";
+      narHash = "sha256-fkOqSkfOkl8tqxDd+zJU4kAgyLXp/ouaP+U9gpjEZZs=";
     };
 
     nixos-21-11 = {
@@ -17,6 +18,7 @@
       repo = "nixpkgs";
       # Released on 2021-11-29 16:25:56 via https://hydra.nixos.org/eval/1726250
       rev = "8e6b3914626900ad8f465c3e3541edbb86a95d41";
+      narHash = "sha256-gLVjBxvI5tLMl2BzbGnpgVppnAxTrkrVeCyBQ5N6VQs=";
     };
 
     nixpkgs-unstable = {
@@ -25,6 +27,7 @@
       repo = "nixpkgs";
       # Released on 2021-11-29 20:21:59 via https://hydra.nixos.org/eval/1726352
       rev = "f366af7a1b3891d9370091ab03150d3a6ee138fa";
+      narHash = "sha256-Vks5UgpFqbrSNi3RXaozVWAVEfueplN2WBPs2bRajHA=";
     };
 
     # Legacy sources from packages.nix
@@ -39,6 +42,7 @@
       owner = "hurricanehrndz";
       repo = "nixcfg";
       rev = "993b3d67315563bfc4f9000e8e2e1d96c7d06ffe";
+      narHash = "sha256-VJmPDhWmIwr5V2gEJL30Zb0emT2KteZbN4lp3psk0sU=";
       flake = false;
     };
 
