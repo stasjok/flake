@@ -78,11 +78,10 @@
       defaultPackage.x86_64-linux = stable-current.buildEnv {
         name = "nix-profile-${self.lastModifiedDate or "1"}";
         paths = builtins.attrValues self.packages.x86_64-linux;
-        extraOutputsToInstall = [ "man" "doc" ];
+        extraOutputsToInstall = [ "man" ];
         pathsToLink = [
           "/bin"
           "/share/man"
-          "/share/doc"
           "/share/nixpkgs-sources"
           "/share/fish/vendor_completions.d"
           "/share/fish/vendor_conf.d"
