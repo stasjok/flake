@@ -82,7 +82,7 @@
         pathsToLink = [
           "/bin"
           "/share/man"
-          "/share/nixpkgs-sources"
+          "/share/nixpkgs"
           "/share/fish/vendor_completions.d"
           "/share/fish/vendor_conf.d"
           "/share/fish/vendor_functions.d"
@@ -207,7 +207,7 @@
           let
             inputs = removeAttrs args [ "self" ];
             nixpkgs-sources = lib.attrsets.mapAttrsToList
-              (name: value: { name = "share/nixpkgs-sources/${name}"; path = value.outPath; })
+              (name: value: { name = "share/nixpkgs/${name}"; path = value.outPath; })
               inputs;
           in
           stable-current.linkFarm "nixpkgs-sources" nixpkgs-sources;
