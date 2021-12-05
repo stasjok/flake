@@ -88,14 +88,12 @@
           "/share/fish/vendor_functions.d"
           "/share/vim-plugins"
         ];
-        buildInputs = [
-          # man-db in Nix is compiled with Berkeley DB by default, but on my
-          # systems man-db is compiled with gdbm. Need to override it for
-          # compatibility with local apropos.
-          (stable-current.man-db.override { db = stable-current.gdbm; })
-        ];
+        buildInputs = [ stable-current.man-db ];
+
         postBuild = ''
-          mandb "$out/share/man"
+          mandb --no-straycats $out/share/man
+          whatis --manpath=$out/share/man --wildcard '*' | sort > $out/share/man/whatis
+          rm --dir $out/share/man/index.* $out/share/man/cat*
         '';
       };
 
