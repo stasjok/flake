@@ -58,15 +58,18 @@
     } @ args:
 
     let
-      # Nixpkgs
+      # Current stable nixpkgs
+      current-version = nixos-21-11;
+      # Nixpkgs legacyPackages
       stable-21-05 = nixos-21-05.legacyPackages.x86_64-linux;
       stable-21-11 = nixos-21-11.legacyPackages.x86_64-linux;
       unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
       vimplugins = nixpkgs-unstable-for-vimplugins.legacyPackages.x86_64-linux;
-      stable-current = stable-21-11;
+      stable-current = current-version.legacyPackages.x86_64-linux;
+      # Nixpkgs lib
+      lib = current-version.lib;
       # Shortcuts
       inherit (stable-current)
-        lib
         fetchFromGitHub
         ;
     in
@@ -153,13 +156,13 @@
           nvim-ts-grammars = stable-current.callPackage "${hurricanehrndz-nixcfg}/nix/pkgs/nvim-ts-grammars" { };
         in
         linkFarm "nvim-treesitter-parsers" (
-          lib.attrsets.mapAttrsToList
+          lib.mapAttrsToList
             (name: drv:
               {
                 name =
                   "share/vim-plugins/nvim-treesitter-parsers/parser/"
-                    + (lib.strings.removePrefix "tree-sitter-"
-                    (lib.strings.removeSuffix "-grammar" name))
+                    + (lib.removePrefix "tree-sitter-"
+                    (lib.removeSuffix "-grammar" name))
                     + stdenv.hostPlatform.extensions.sharedLibrary;
                 path = "${drv}/parser.so";
               }
@@ -203,7 +206,7 @@
         sources =
           let
             inputs = removeAttrs args [ "self" ];
-            nixpkgs-sources = lib.attrsets.mapAttrsToList
+            nixpkgs-sources = lib.mapAttrsToList
               (name: value: { name = "share/nixpkgs/${name}"; path = value.outPath; })
               inputs;
           in
