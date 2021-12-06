@@ -152,29 +152,8 @@
                   packer-nvim
                   # Remove dependencies because they are managed by packer
                   (telescope-fzf-native-nvim.overrideAttrs (_: { dependencies = [ ]; }))
-                  (
-                    with stable-current; let
-                      nvim-ts-grammars = stable-current.callPackage "${hurricanehrndz-nixcfg}/nix/pkgs/nvim-ts-grammars" { };
-                    in
-                    linkFarm "nvim-treesitter-parsers" (
-                      lib.mapAttrsToList
-                        (name: drv:
-                          {
-                            name =
-                              "parser/"
-                                + (lib.removePrefix "tree-sitter-" (lib.removeSuffix "-grammar" name))
-                                + stdenv.hostPlatform.extensions.sharedLibrary;
-                            path = "${drv}/parser.so";
-                          }
-                        )
-                        (removeAttrs nvim-ts-grammars.builtGrammars [
-                          "tree-sitter-elixir" # doesn't install (error in derivation)
-                          "tree-sitter-gdscript" # ABI version mismatch
-                          "tree-sitter-ocamllex" # ABI version mismatch
-                          "tree-sitter-swift" # ABI version mismatch
-                        ])
-                    )
-                  )
+                  # TODO: build grammars using nvim-treesitter lock file
+                  (nvim-treesitter.withPlugins (_: unstable.tree-sitter.allGrammars))
                 ];
                 opt = [ ];
               };
