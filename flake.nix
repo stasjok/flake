@@ -103,7 +103,6 @@
         nix = stable-current.nix_2_4;
         inherit (stable-current)
           cacert
-          bash
           fish
           tmux
           git
