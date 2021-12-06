@@ -1,23 +1,5 @@
 {
   "nodes": {
-    "hurricanehrndz-nixcfg": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1627910568,
-        "narHash": "sha256-VJmPDhWmIwr5V2gEJL30Zb0emT2KteZbN4lp3psk0sU=",
-        "owner": "hurricanehrndz",
-        "repo": "nixcfg",
-        "rev": "993b3d67315563bfc4f9000e8e2e1d96c7d06ffe",
-        "type": "github"
-      },
-      "original": {
-        "narHash": "sha256-VJmPDhWmIwr5V2gEJL30Zb0emT2KteZbN4lp3psk0sU=",
-        "owner": "hurricanehrndz",
-        "repo": "nixcfg",
-        "rev": "993b3d67315563bfc4f9000e8e2e1d96c7d06ffe",
-        "type": "github"
-      }
-    },
     "nixos-21-05": {
       "locked": {
         "lastModified": 1638196344,
@@ -69,25 +51,11 @@
         "type": "github"
       }
     },
-    "nixpkgs-unstable-for-vimplugins": {
-      "locked": {
-        "narHash": "sha256-pDftXg89gm1k/ACrgeiyv3qhNCif9F6z/Jb33Za89t4=",
-        "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-21.11pre309670.253aecf69ed/nixexprs.tar.xz"
-      },
-      "original": {
-        "narHash": "sha256-pDftXg89gm1k/ACrgeiyv3qhNCif9F6z/Jb33Za89t4=",
-        "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-21.11pre309670.253aecf69ed/nixexprs.tar.xz"
-      }
-    },
     "root": {
       "inputs": {
-        "hurricanehrndz-nixcfg": "hurricanehrndz-nixcfg",
         "nixos-21-05": "nixos-21-05",
         "nixos-21-11": "nixos-21-11",
-        "nixpkgs-unstable": "nixpkgs-unstable",
-        "nixpkgs-unstable-for-vimplugins": "nixpkgs-unstable-for-vimplugins"
+        "nixpkgs-unstable": "nixpkgs-unstable"
       }
     }
   },

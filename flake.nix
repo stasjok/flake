@@ -30,22 +30,6 @@
       narHash = "sha256-Vks5UgpFqbrSNi3RXaozVWAVEfueplN2WBPs2bRajHA=";
     };
 
-    # Legacy sources from packages.nix
-    nixpkgs-unstable-for-vimplugins = {
-      type = "tarball";
-      url = https://releases.nixos.org/nixpkgs/nixpkgs-21.11pre309670.253aecf69ed/nixexprs.tar.xz;
-      narHash = "sha256-pDftXg89gm1k/ACrgeiyv3qhNCif9F6z/Jb33Za89t4=";
-    };
-
-    hurricanehrndz-nixcfg = {
-      type = "github";
-      owner = "hurricanehrndz";
-      repo = "nixcfg";
-      rev = "993b3d67315563bfc4f9000e8e2e1d96c7d06ffe";
-      narHash = "sha256-VJmPDhWmIwr5V2gEJL30Zb0emT2KteZbN4lp3psk0sU=";
-      flake = false;
-    };
-
   };
 
   outputs =
@@ -53,8 +37,6 @@
     , nixos-21-05
     , nixos-21-11
     , nixpkgs-unstable
-    , nixpkgs-unstable-for-vimplugins
-    , hurricanehrndz-nixcfg
     } @ args:
 
     let
@@ -64,7 +46,6 @@
       stable-21-05 = nixos-21-05.legacyPackages.x86_64-linux;
       stable-21-11 = nixos-21-11.legacyPackages.x86_64-linux;
       unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
-      vimplugins = nixpkgs-unstable-for-vimplugins.legacyPackages.x86_64-linux;
       stable-current = current-version.legacyPackages.x86_64-linux;
       # Nixpkgs lib
       lib = current-version.lib;
