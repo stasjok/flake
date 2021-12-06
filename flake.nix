@@ -89,7 +89,6 @@
           "/share/fish/vendor_completions.d"
           "/share/fish/vendor_conf.d"
           "/share/fish/vendor_functions.d"
-          "/share/vim-plugins"
         ];
         buildInputs = [ stable-current.man-db ];
 
@@ -131,49 +130,56 @@
           ;
         # Packages from unstable
         inherit (unstable)
-          neovim-unwrapped
           sumneko-lua-language-server
           ;
         inherit (unstable.nodePackages)
           pyright
           ;
 
-        packer-nvim = vimplugins.vimPlugins.packer-nvim.overrideAttrs (oldAttrs: {
-          # I need to change package name, because packer does :packadd packer.nvim
-          pname = "packer.nvim";
-          version = "2021-09-04";
-          src = fetchFromGitHub {
-            owner = "wbthomason";
-            repo = "packer.nvim";
-            rev = "daec6c759f95cd8528e5dd7c214b18b4cec2658c";
-            sha256 = "1mavf0rwrlvwd9bmxj1nnyd32jqrzn4wpiman8wpakf5dcn1i8gb";
-          };
-        });
-
-        telescope-fzf-native-nvim = vimplugins.vimPlugins.telescope-fzf-native-nvim;
-
-        nvim-treesitter-parsers = with stable-current; let
-          nvim-ts-grammars = stable-current.callPackage "${hurricanehrndz-nixcfg}/nix/pkgs/nvim-ts-grammars" { };
-        in
-        linkFarm "nvim-treesitter-parsers" (
-          lib.mapAttrsToList
-            (name: drv:
+        neovim-with-plugins = unstable.neovim.override {
+          extraName = "-with-plugins";
+          withPython3 = false;
+          withRuby = false;
+          configure = {
+            # Load user config
+            customRC = ''
+              runtime init.vim
+              runtime init.lua
+            '';
+            packages.nix = with unstable.vimPlugins;
               {
-                name =
-                  "share/vim-plugins/nvim-treesitter-parsers/parser/"
-                    + (lib.removePrefix "tree-sitter-"
-                    (lib.removeSuffix "-grammar" name))
-                    + stdenv.hostPlatform.extensions.sharedLibrary;
-                path = "${drv}/parser.so";
-              }
-            )
-            (removeAttrs nvim-ts-grammars.builtGrammars [
-              "tree-sitter-elixir" # doesn't install (error in derivation)
-              "tree-sitter-gdscript" # ABI version mismatch
-              "tree-sitter-ocamllex" # ABI version mismatch
-              "tree-sitter-swift" # ABI version mismatch
-            ])
-        );
+                start = [
+                  packer-nvim
+                  # Remove dependencies because they are managed by packer
+                  (telescope-fzf-native-nvim.overrideAttrs (_: { dependencies = [ ]; }))
+                  (
+                    with stable-current; let
+                      nvim-ts-grammars = stable-current.callPackage "${hurricanehrndz-nixcfg}/nix/pkgs/nvim-ts-grammars" { };
+                    in
+                    linkFarm "nvim-treesitter-parsers" (
+                      lib.mapAttrsToList
+                        (name: drv:
+                          {
+                            name =
+                              "parser/"
+                                + (lib.removePrefix "tree-sitter-" (lib.removeSuffix "-grammar" name))
+                                + stdenv.hostPlatform.extensions.sharedLibrary;
+                            path = "${drv}/parser.so";
+                          }
+                        )
+                        (removeAttrs nvim-ts-grammars.builtGrammars [
+                          "tree-sitter-elixir" # doesn't install (error in derivation)
+                          "tree-sitter-gdscript" # ABI version mismatch
+                          "tree-sitter-ocamllex" # ABI version mismatch
+                          "tree-sitter-swift" # ABI version mismatch
+                        ])
+                    )
+                  )
+                ];
+                opt = [ ];
+              };
+          };
+        };
 
         # We need version 0.2 for ansible 2.9
         mitogen = stable-current.python39Packages.mitogen.overrideAttrs (oldAttrs: rec {
