@@ -117,29 +117,29 @@
           pyright
           ;
 
-        neovim-with-plugins = unstable.neovim.override {
-          extraName = "-with-plugins";
-          withPython3 = false;
-          withRuby = false;
-          configure = {
-            # Load user config
-            customRC = ''
-              runtime init.vim
-              runtime init.lua
-            '';
-            packages.nix = with unstable.vimPlugins;
-              {
-                start = [
-                  packer-nvim
-                  # Remove dependencies because they are managed by packer
-                  (telescope-fzf-native-nvim.overrideAttrs (_: { dependencies = [ ]; }))
-                  # TODO: build grammars using nvim-treesitter lock file
-                  (nvim-treesitter.withPlugins (_: unstable.tree-sitter.allGrammars))
-                ];
-                opt = [ ];
-              };
-          };
-        };
+        neovimWithPlugins =
+          with unstable; let
+            configure.packages.nix.start = with vimPlugins; [
+              packer-nvim
+              # Remove dependencies because they are managed by packer
+              (telescope-fzf-native-nvim.overrideAttrs (_: { dependencies = [ ]; }))
+              # TODO: build grammars using nvim-treesitter lock file
+              (nvim-treesitter.withPlugins (_: unstable.tree-sitter.allGrammars))
+            ];
+            vimPackDir = vimUtils.packDir configure.packages;
+            nvimDataDir = linkFarm "nvim-data-dir" [{ name = "nvim/site"; path = vimPackDir; }];
+            neovimConfig = neovimUtils.makeNeovimConfig {
+              withPython3 = false;
+              withRuby = false;
+              inherit configure;
+            };
+            # Use vim-pack-dir as env, not as vimrc
+            wrapNeovimArgs = neovimConfig // {
+              wrapRc = false;
+              wrapperArgs = neovimConfig.wrapperArgs ++ [ "--set" "XDG_DATA_DIRS" nvimDataDir ];
+            };
+          in
+          wrapNeovimUnstable neovim-unwrapped wrapNeovimArgs;
 
         # We need version 0.2 for ansible 2.9
         mitogen = stable-current.python39Packages.mitogen.overrideAttrs (oldAttrs: rec {
