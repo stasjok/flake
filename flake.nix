@@ -118,6 +118,7 @@
           pyright
           ;
 
+        # Overrided packages
         neovimWithPlugins =
           with unstable; let
             configure.packages.nix.start = with vimPlugins; [
