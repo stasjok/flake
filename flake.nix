@@ -55,8 +55,9 @@
         ;
     in
     {
-      # Provide all upstream packages
+      # Provide all upstream packages and lib
       legacyPackages.x86_64-linux = stable-current;
+      inherit lib;
 
       # Provide a package for nix profile with all my packages combined
       defaultPackage.x86_64-linux = stable-current.buildEnv {
