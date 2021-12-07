@@ -124,7 +124,10 @@
               # Remove dependencies because they are managed by packer
               (telescope-fzf-native-nvim.overrideAttrs (_: { dependencies = [ ]; }))
               # TODO: build grammars using nvim-treesitter lock file
-              (nvim-treesitter.withPlugins (_: unstable.tree-sitter.allGrammars))
+              (linkFarm "nvim-treesitter-parsers" [{
+                name = "parser";
+                path = tree-sitter.withPlugins (_: tree-sitter.allGrammars);
+              }])
             ];
             vimPackDir = vimUtils.packDir configure.packages;
             nvimDataDir = linkFarm "nvim-data-dir" [{ name = "nvim/site"; path = vimPackDir; }];
