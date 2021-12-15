@@ -82,11 +82,10 @@
       };
 
       # My packages separately
-      packages.x86_64-linux = {
+      packages.x86_64-linux = rec {
         # Packages from current stable
         nix = stable-current.nix_2_4;
         inherit (stable-current)
-          cacert
           fish
           tmux
           git
@@ -163,7 +162,11 @@
           };
         });
 
-        rnix-lsp = unstable.rnix-lsp.overrideAttrs (oldAttrs: rec {
+        rnix-lsp = let
+            cargo = stable-current.cargo.override { inherit cacert; };
+            fetchCargoTarball = stable-current.rustPlatform.fetchCargoTarball.override { inherit cargo; };
+          in
+          unstable.rnix-lsp.overrideAttrs (oldAttrs: rec {
           version = "2021-11-15+9462b0d";
           src = fetchFromGitHub {
             owner = "nix-community";
@@ -171,12 +174,16 @@
             rev = "9462b0d20325a06f7e43b5a0469ec2c92e60f5fe";
             sha256 = "0mhzm4k7jkrq8r06mi49i04zvg0j1j6b54aqwyy104k8l32802d5";
           };
-          cargoDeps = stable-current.rustPlatform.fetchCargoTarball {
+          cargoDeps = fetchCargoTarball {
             inherit src;
             name = "rnix-lsp-${version}-vendor.tar.gz";
             hash = "sha256:0fpzmp5cnj3s1x5xnp2ffxkwlgyrmfmkgz0k23b2b0rpl94d1x17";
           };
         });
+
+        cacert = stable-current.cacert.override {
+          extraCertificateFiles = [ ./cacerts/absolutbank_root_2017.crt ];
+        };
 
         # Reference input sources in order to avoid garbage collection
         sources =
