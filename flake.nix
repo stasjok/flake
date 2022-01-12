@@ -25,9 +25,9 @@
       type = "github";
       owner = "NixOS";
       repo = "nixpkgs";
-      # Hydra evaluation https://hydra.nixos.org/eval/1727142 (2021-12-02 11:53:30)
-      rev = "56cbe42f1668338d05febfbb866e32f2c865609a";
-      narHash = "sha256-iZ+rgyRx3JVyylXYxSyW01liDWEn+O8cKnin6cMzOFU=";
+      # Hydra evaluation https://hydra.nixos.org/eval/1737019 (2022-01-08 23:15:00)
+      rev = "32356ce11b8cc5cc421b68138ae8c730cc8ad4a2";
+      narHash = "sha256-aHoO6CpPLJK8hLkPJrpMnCRnj3YbfQZ7HNcXcnI83E0=";
     };
 
   };
