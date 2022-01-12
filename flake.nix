@@ -103,6 +103,7 @@
           shellcheck
           shfmt
           stylua
+          rnix-lsp
           ;
         inherit (stable-current.nodePackages)
           bash-language-server
@@ -168,26 +169,6 @@
               "--set-default ANSIBLE_STRATEGY mitogen_linear"
             ];
             propagatedBuildInputs = oldAttrs.propagatedBuildInputs ++ [ mitogen_0_2 ];
-          });
-
-        rnix-lsp =
-          let
-            cargo = stable-current.cargo.override { inherit cacert; };
-            fetchCargoTarball = stable-current.rustPlatform.fetchCargoTarball.override { inherit cargo; };
-          in
-          unstable.rnix-lsp.overrideAttrs (oldAttrs: rec {
-            version = "2021-11-15+9462b0d";
-            src = fetchFromGitHub {
-              owner = "nix-community";
-              repo = "rnix-lsp";
-              rev = "9462b0d20325a06f7e43b5a0469ec2c92e60f5fe";
-              sha256 = "0mhzm4k7jkrq8r06mi49i04zvg0j1j6b54aqwyy104k8l32802d5";
-            };
-            cargoDeps = fetchCargoTarball {
-              inherit src;
-              name = "rnix-lsp-${version}-vendor.tar.gz";
-              hash = "sha256:0fpzmp5cnj3s1x5xnp2ffxkwlgyrmfmkgz0k23b2b0rpl94d1x17";
-            };
           });
 
         cacert = stable-current.cacert.override {
