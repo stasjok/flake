@@ -1,4 +1,4 @@
 [
   "vscode-langservers-extracted",
-  "ansible-language-server"
+  "@ansible/ansible-language-server"
 ]
