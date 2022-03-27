@@ -7,18 +7,18 @@
       type = "github";
       owner = "NixOS";
       repo = "nixpkgs";
-      # Released on 2022-01-10 11:30:04 via https://hydra.nixos.org/eval/1737315
-      rev = "df123677560db3b0db7c19d71981b11091fbeaf6";
-      narHash = "sha256-/7YwWbvkjinc4uu5aUQMRw3xAthhOVH/esm4tCXPzIQ=";
+      # Released on 2022-03-05 17:28:07 via https://hydra.nixos.org/eval/1744839
+      rev = "530a53dcbc9437363471167a5e4762c5fcfa34a1";
+      narHash = "sha256-y53N7TyIkXsjMpOG7RhvqJFGDacLs9HlyHeSTBioqYU=";
     };
 
     nixos-21-11 = {
       type = "github";
       owner = "NixOS";
       repo = "nixpkgs";
-      # Released on 2022-01-11 12:33:23 via https://hydra.nixos.org/eval/1737543
-      rev = "386234e2a61e1e8acf94dfa3a3d3ca19a6776efb";
-      narHash = "sha256-6HkxR2WZsm37VoQS7jgp6Omd71iw6t1kP8bDbaqCDuI=";
+      # Released on 2022-03-24 05:31:45 via https://hydra.nixos.org/eval/1750680
+      rev = "d2caa9377539e3b5ff1272ac3aa2d15f3081069f";
+      narHash = "sha256-AG40Nt5OWz0LBs5p457emOuwLKOvTtcv/2fUdnEN3Ws=";
     };
 
     nixpkgs-unstable = {
