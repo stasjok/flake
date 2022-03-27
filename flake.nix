@@ -120,6 +120,17 @@
         # Overrided packages
         neovimWithPlugins =
           with unstable; let
+            # Pin some of the tree-sitter grammars
+            treesitterAllGrammars = p: builtins.attrValues (p // {
+              tree-sitter-nix = p.tree-sitter-nix.overrideAttrs (_: {
+                src = fetchFromGitHub {
+                  owner = "cstrahan";
+                  repo = "tree-sitter-nix";
+                  rev = "6d6aaa50793b8265b6a8b6628577a0083d3b923d";
+                  sha256 = "sha256-iYdP50IQ0Kg9kv/U5GsHy3wUTn2O34Oq3Vmre3EzczE=";
+                };
+              });
+            });
             configure.packages.nix.start = with vimPlugins; [
               packer-nvim
               # Remove dependencies because they are managed by packer
@@ -127,7 +138,7 @@
               # TODO: build grammars using nvim-treesitter lock file
               (linkFarm "nvim-treesitter-parsers" [{
                 name = "parser";
-                path = tree-sitter.withPlugins (_: tree-sitter.allGrammars);
+                path = tree-sitter.withPlugins treesitterAllGrammars;
               }])
             ];
             vimPackDir = vimUtils.packDir configure.packages;
