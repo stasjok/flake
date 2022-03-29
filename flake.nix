@@ -84,7 +84,6 @@
       # My packages separately
       packages.x86_64-linux = rec {
         # Packages from current stable
-        nix = stable-current.nix_2_4;
         inherit (stable-current)
           fish
           tmux
@@ -111,6 +110,7 @@
           ;
         # Packages from unstable
         inherit (unstable)
+          nix
           sumneko-lua-language-server
           ;
         inherit (unstable.nodePackages)
