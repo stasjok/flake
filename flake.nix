@@ -103,6 +103,7 @@
           shfmt
           stylua
           rnix-lsp
+          terraform
           ;
         inherit (stable-current.nodePackages)
           bash-language-server
@@ -112,6 +113,7 @@
         inherit (unstable)
           nix
           sumneko-lua-language-server
+          terraform-ls
           ;
         inherit (unstable.nodePackages)
           pyright
